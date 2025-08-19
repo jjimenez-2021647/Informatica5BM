@@ -3,7 +3,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Informatica5BM/Informatica5BM/src/java/com/kinalitosclothes/modelo/DispositvosPerifericos.java</file>
             <file>file:/C:/Informatica5BM/Informatica5BM/web/Styles/vistaproveedoradmin.css</file>
             <file>file:/C:/Informatica5BM/Informatica5BM/web/index.jsp</file>
             <file>file:/C:/Informatica5BM/Informatica5BM/web/Styles/Principal.css</file>
@@ -11,8 +10,9 @@
             <file>file:/C:/Informatica5BM/Informatica5BM/src/java/com/kinalitosclothes/modelo/Proveedores.java</file>
             <file>file:/C:/Informatica5BM/Informatica5BM/web/Index/vistaproveedoradmin.jsp</file>
             <file>file:/C:/Informatica5BM/Informatica5BM/src/java/com/kinalitosclothes/modelo/ProveedoresDAO.java</file>
+            <file>file:/C:/Informatica5BM/Informatica5BM/src/java/com/kinalitosclothes/modelo/DispositivosPerifericos.java</file>
             <file>file:/C:/Informatica5BM/Informatica5BM/src/conf/MANIFEST.MF</file>
-            <file>file:/C:/Informatica5BM/Informatica5BM/src/java/com/kinalitosclothes/modelo/DispositvosPerifericosDAO.java</file>
+            <file>file:/C:/Informatica5BM/Informatica5BM/src/java/com/kinalitosclothes/modelo/DispositivosPerifericosDAO.java</file>
             <file>file:/C:/Informatica5BM/Informatica5BM/src/java/Controlador/Controlador.java</file>
             <file>file:/C:/Informatica5BM/Informatica5BM/web/Index/VistaDP.jsp</file>
         </group>

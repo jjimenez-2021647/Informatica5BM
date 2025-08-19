@@ -7,22 +7,22 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DispositvosPerifericosDAO {
+public class DispositivosPerifericosDAO {
     Conexion cn = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
     int resp;
 
-    public List<DispositvosPerifericos> listar() {
+    public List<DispositivosPerifericos> listar() {
         String sql = "call sp_ListarDispositvosPerifericos();";
-        List<DispositvosPerifericos> listaDP = new ArrayList<>();
+        List<DispositivosPerifericos> listaDP = new ArrayList<>();
         try {
             con = cn.Conexion();
             ps = con.prepareCall(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                DispositvosPerifericos DP = new DispositvosPerifericos();
+                DispositivosPerifericos DP = new DispositivosPerifericos();
                 DP.setCodigoDP(rs.getInt(1));
                 DP.setNombreDP(rs.getString(2));
                 DP.setPrecioDP(rs.getDouble(3));
@@ -37,7 +37,7 @@ public class DispositvosPerifericosDAO {
         return listaDP;
     }
 
-    public int agregar(DispositvosPerifericos DP) {
+    public int agregar(DispositivosPerifericos DP) {
         String sql = "call sp_AgregarDispositvosPerifericos(?, ?, ?, ?, ?);";
         try {
             con = cn.Conexion();
@@ -72,9 +72,9 @@ public class DispositvosPerifericosDAO {
         return resp;
     }
 
-    public DispositvosPerifericos buscar(int codigoDP) {
+    public DispositivosPerifericos buscar(int codigoDP) {
         String sql = "call sp_BuscarDispositvosPerifericos(?);";
-        DispositvosPerifericos DP = null;
+        DispositivosPerifericos DP = null;
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
@@ -82,7 +82,7 @@ public class DispositvosPerifericosDAO {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                DP = new DispositvosPerifericos();
+                DP = new DispositivosPerifericos();
                 DP.setCodigoDP(rs.getInt(1));
                 DP.setNombreDP(rs.getString(2));
                 DP.setPrecioDP(rs.getDouble(3));
@@ -95,4 +95,23 @@ public class DispositvosPerifericosDAO {
         }
         return DP;
     }
+    
+    public int actualizar(DispositivosPerifericos DP) {
+    String sql = "call sp_EditarDispositivosPerifericos (?, ?, ?, ?, ?, ?);";
+    resp = 0;
+    try {
+        con = cn.Conexion();
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, DP.getCodigoDP());
+        ps.setString(2, DP.getNombreDP());
+        ps.setDouble(3, DP.getPrecioDP());
+        ps.setInt(4, DP.getStock());
+        ps.setString(5, DP.getTipo());
+        ps.setInt(6, DP.getCodigoProveedor());
+        resp = ps.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return resp;
+}
 }

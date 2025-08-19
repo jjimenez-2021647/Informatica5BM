@@ -1,6 +1,6 @@
 package com.kinalitosclothes.modelo;
 
-public class DispositvosPerifericos {
+public class DispositivosPerifericos {
     private int codigoDP;
     private String nombreDP;
     private double precioDP;
@@ -8,10 +8,10 @@ public class DispositvosPerifericos {
     private String tipo;
     private int codigoProveedor;
 
-    public DispositvosPerifericos() {
+    public DispositivosPerifericos() {
     }
 
-    public DispositvosPerifericos(int codigoDP, String nombreDP, double precioDP, int stock, String tipo, int codigoProveedor) {
+    public DispositivosPerifericos(int codigoDP, String nombreDP, double precioDP, int stock, String tipo, int codigoProveedor) {
         this.codigoDP = codigoDP;
         this.nombreDP = nombreDP;
         this.precioDP = precioDP;

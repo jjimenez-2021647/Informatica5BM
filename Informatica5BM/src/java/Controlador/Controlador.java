@@ -35,8 +35,8 @@ public class Controlador extends HttpServlet {
             throws ServletException, IOException {
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
-        DispositvosPerifericos DP = new DispositvosPerifericos();
-        DispositvosPerifericosDAO DPDAO = new DispositvosPerifericosDAO();
+        DispositivosPerifericos DP = new DispositivosPerifericos();
+        DispositivosPerifericosDAO DPDAO = new DispositivosPerifericosDAO();
         ProveedoresDAO proveedoresDAO = new ProveedoresDAO();
         Proveedores proveedores = new Proveedores();
         int codUsuario;
@@ -143,16 +143,16 @@ public class Controlador extends HttpServlet {
         } else if (menu.equals("VistaDP")) {
             switch (accion) {
                 case "Listar":
-                    List<DispositvosPerifericos> listaDP = DPDAO.listar();
-                    request.setAttribute("DispositvosPerifericos", listaDP);
+                    List<DispositivosPerifericos> listaDP = DPDAO.listar();
+                    request.setAttribute("dps", listaDP);
                     break;
                 case "Buscar":
                     String codigoDP = request.getParameter("txtBuscarId");
-                    List<DispositvosPerifericos> listaDPB = new ArrayList<>();
+                    List<DispositivosPerifericos> listaDPB = new ArrayList<>();
                     if (codigoDP != null && !codigoDP.trim().isEmpty()) {
                         try {
                             int codigoDP2 = Integer.parseInt(codigoDP);
-                            DispositvosPerifericos dpEncontrado = DPDAO.buscar(codigoDP2);
+                            DispositivosPerifericos dpEncontrado = DPDAO.buscar(codigoDP2);
 
                             if (dpEncontrado != null) {
                                 listaDPB.add(dpEncontrado);
@@ -166,7 +166,7 @@ public class Controlador extends HttpServlet {
                         listaDPB = DPDAO.listar();
                     }
 
-                    request.setAttribute("DispositvosPerifericos", listaDPB);
+                    request.setAttribute("dps", listaDPB);
                     request.getRequestDispatcher("/Index/VistaDP.jsp").forward(request, response);
 
                     break;
@@ -185,48 +185,53 @@ public class Controlador extends HttpServlet {
                     DP.setStock(stock);
                     DP.setTipo(tipo);
                     DP.setCodigoProveedor(cPDP);
+                    DPDAO.agregar(DP);
 
-                    if (DP != null) {
+                    int resultado = DPDAO.agregar(DP);
+                    if (resultado > 0) {
                         request.getRequestDispatcher("Controlador?menu=VistaDP&accion=Listar").forward(request, response);
                     } else {
-                        System.out.println("No sale");
+                        request.setAttribute("error", "No se pudo agregar el dispositivo");
                     }
                     break;
                 case "Editar":
                     int idEditar = Integer.parseInt(request.getParameter("id"));
-                    DispositvosPerifericos dpEditar = DPDAO.buscar(idEditar);
-                    request.setAttribute("DispositvosPeriferico", dpEditar);
-                    request.setAttribute("DispositvosPeriferico", proveedoresDAO.listar());
+                    DispositivosPerifericos dpEditar = DPDAO.buscar(idEditar);
+                    request.setAttribute("dps", dpEditar);
                     request.getRequestDispatcher("/Index/VistaDP.jsp").forward(request, response);
-                    break;/*
+                    break;
                 case "Actualizar":
-                    int codigoProveedor = Integer.parseInt(request.getParameter("txtCodigoProveedor"));
-                    String nombreProveedorA = request.getParameter("txtNombreProveedor");
-                    String telefonoProveedorA = request.getParameter("txtTelefonoProveedor");
-                    String correoProveedorA = request.getParameter("txtCorreoProveedor");
-                    String paisProveedorA = request.getParameter("txtPaisProveedor");
-                    proveedores.setCodigoProveedor(codigoProveedor);
-                    proveedores.setNombreProveedor(nombreProveedorA);
-                    proveedores.setTelefonoProveedor(telefonoProveedorA);
-                    proveedores.setCorreoProveedor(correoProveedorA);
-                    proveedores.setPaisProveedor(paisProveedorA);
+                    int codigoDPA = Integer.parseInt(request.getParameter("txtCodigoDP"));
+                    String nombreDPA = request.getParameter("txtNombreDP");
+                    double precioDPA = Double.parseDouble(request.getParameter("txtPrecioDP"));
+                    int stockA = Integer.parseInt(request.getParameter("txtStock"));
+                    String tipoA = request.getParameter("txtTipo");
+                    int codigoProvA = Integer.parseInt(request.getParameter("txtCodigoProveedor"));
 
-                    int filas = proveedoresDAO.actualizar(proveedores);
+                    DP.setCodigoDP(codigoDPA);
+                    DP.setNombreDP(nombreDPA);
+                    DP.setPrecioDP(precioDPA);
+                    DP.setStock(stockA);
+                    DP.setTipo(tipoA);
+                    DP.setCodigoProveedor(codigoProvA);
 
-                    System.out.println("Filas actualizadas: " + filas);
+                    int resultadoDP = DPDAO.actualizar(DP); 
+                    if (resultadoDP > 0) {
+                        request.getRequestDispatcher("Controlador?menu=VistaDP&accion=Listar").forward(request, response);
+                    } else {
+                        request.setAttribute("error", "Error al actualizar el dispositivo");
+                    }
+                    break;
 
-                    request.setAttribute("proveedores", proveedoresDAO.listar());
-                    request.getRequestDispatcher("/Index/vistaproveedoradmin.jsp").forward(request, response);
-                    break;*/
                 case "Eliminar":
                     String idEliminar = request.getParameter("id");
                     if (idEliminar != null && !idEliminar.trim().isEmpty()) {
                         try {
                             int codigo = Integer.parseInt(idEliminar);
 
-                            int resultado = DPDAO.eliminar(codigo);
+                            int resultadoE = DPDAO.eliminar(codigo);
 
-                            if (resultado > 0) {
+                            if (resultadoE > 0) {
                                 request.setAttribute("mensaje", "DP eliminado exitosamente");
                             } else {
                                 request.setAttribute("error", "Error al eliminar el DP");
@@ -257,8 +262,11 @@ public class Controlador extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response
+    )
+            throws ServletException,
+            IOException {
         processRequest(request, response);
     }
 
@@ -271,8 +279,11 @@ public class Controlador extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response
+    )
+            throws ServletException,
+            IOException {
         processRequest(request, response);
     }
 

@@ -285,11 +285,11 @@
         <footer class="footer">
             <div class="footer-contenido">
                 <div class="footer-logo">
-                    <span>KinalitosClothes</span>
+                    <span>Dispositivos Perifericos</span>
                 </div>
             </div>
             <div class="footer-copy">
-                © Todos los derechos reservados por KinalitosClothes 👻
+                © Todos los derechos reservados por DP 👻
             </div>
         </footer>
     </body>
