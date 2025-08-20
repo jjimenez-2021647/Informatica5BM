@@ -39,6 +39,7 @@
                 <p>Los mejores dispositivos para ti.</p>
                 <br>
                 <div class="hero-buttons">
+                    <a href="${pageContext.request.contextPath}/Controlador?menu=Index" class="btn-botones">Inicio</a>
                     <a href="#Entrada" class="btn-botones">Entrada</a>
                     <a href="#Salida" class="btn-botones">Salida</a>
                 </div>

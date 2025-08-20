@@ -24,7 +24,7 @@
                 </ul>
                 <div class="iconos">
                     <a href="#"><i class="fa fa-search"></i></a>
-                    <a href="Controlador?menu=MisPedidos"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="Controlador?menu=DPC"><i class="fa fa-shopping-cart"></i></a>
                 </div>
             </div>
         </nav>  
@@ -69,7 +69,7 @@
                                     <div class="card__content">
                                         <p class="card__title">Entrada</p>
                                         <p class="card__description">Tenemos los mejores dispositivos de entrada para tu computadora, aprovecha ahora.</p>
-                                        <a href="Servicios.html#Pintura">
+                                        <a href="Controlador?menu=DPC#Entrada">
                                             <button class="card__button">Ver más</button>
                                         </a>
                                     </div>
@@ -82,7 +82,7 @@
                                     <div class="card__content">
                                         <p class="card__title">Salida</p>
                                         <p class="card__description">Tenemos los mejores dispositivos de salida para tu computadora, aprovecha ahora.</p>
-                                        <a href="Servicios.html#Llantas">
+                                        <a href="Controlador?menu=DPC#Salida">
                                             <button class="card__button">Ver más</button>
                                         </a>
                                     </div>

@@ -41,7 +41,7 @@ public class Controlador extends HttpServlet {
         Proveedores proveedores = new Proveedores();
         int codUsuario;
         if (menu.equals("Index")) {
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
         } else if (menu.equals("Proveedor")) {
             switch (accion) {
                 case "Listar":
@@ -258,11 +258,11 @@ public class Controlador extends HttpServlet {
                     }
                     response.sendRedirect("Controlador?menu=VistaDP&accion=Listar");
                     return;
-                    
+
                 default:
                     System.out.println("No valido");
             }
-        } else if (menu.equals("DPC")){
+        } else if (menu.equals("DPC")) {
             response.sendRedirect("Index/DPC.jsp");
         }
 

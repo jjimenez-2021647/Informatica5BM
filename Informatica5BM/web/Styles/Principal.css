@@ -214,17 +214,17 @@ body {
 }
 
 .slide:nth-child(8) {
-    background-image: url('../Images/Ocho.jpg');
+    background-image: url('../Images/fondo_prinicpal.jpg');
     animation-delay: 17.5s;
 }
 
 .slide:nth-child(9) {
-    background-image: url('../Images/Nueve.jpeg');
+    background-image: url('../Images/Nueve.jpg');
     animation-delay: 20s;
 }
 
 .slide:nth-child(10) {
-    background-image: url('../Images/Dies.png');
+    background-image: url('../Images/Diez.jpg');
     animation-delay: 22.5s;
 }
 
