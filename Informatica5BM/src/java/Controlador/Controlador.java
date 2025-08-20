@@ -145,7 +145,9 @@ public class Controlador extends HttpServlet {
                 case "Listar":
                     List<DispositivosPerifericos> listaDP = DPDAO.listar();
                     request.setAttribute("dps", listaDP);
+                    request.getRequestDispatcher("/Index/VistaDP.jsp").forward(request, response);
                     break;
+
                 case "Buscar":
                     String codigoDP = request.getParameter("txtBuscarId");
                     List<DispositivosPerifericos> listaDPB = new ArrayList<>();
@@ -165,61 +167,76 @@ public class Controlador extends HttpServlet {
                     } else {
                         listaDPB = DPDAO.listar();
                     }
-
                     request.setAttribute("dps", listaDPB);
                     request.getRequestDispatcher("/Index/VistaDP.jsp").forward(request, response);
-
                     break;
+
                 case "Agregar":
                     String nombreDP = request.getParameter("txtNombreDP");
                     String precioDP = request.getParameter("txtPrecioDP");
                     String stockDP = request.getParameter("txtStock");
                     String tipo = request.getParameter("txtTipo");
                     String codigoProveedor = request.getParameter("txtCodigoProveedor");
-                    double pDP = Double.parseDouble(precioDP);
-                    int stock = Integer.parseInt(stockDP);
-                    int cPDP = Integer.parseInt(codigoProveedor);
 
-                    DP.setNombreDP(nombreDP);
-                    DP.setPrecioDP(pDP);
-                    DP.setStock(stock);
-                    DP.setTipo(tipo);
-                    DP.setCodigoProveedor(cPDP);
-                    DPDAO.agregar(DP);
+                    try {
+                        double pDP = Double.parseDouble(precioDP);
+                        int stock = Integer.parseInt(stockDP);
+                        int cPDP = Integer.parseInt(codigoProveedor);
 
-                    int resultado = DPDAO.agregar(DP);
-                    if (resultado > 0) {
-                        request.getRequestDispatcher("Controlador?menu=VistaDP&accion=Listar").forward(request, response);
-                    } else {
-                        request.setAttribute("error", "No se pudo agregar el dispositivo");
+                        DP.setNombreDP(nombreDP);
+                        DP.setPrecioDP(pDP);
+                        DP.setStock(stock);
+                        DP.setTipo(tipo);
+                        DP.setCodigoProveedor(cPDP);
+
+                        DPDAO.agregar(DP);
+                        if (DP != null) {
+                            response.sendRedirect("Controlador?menu=VistaDP&accion=Listar");
+                        } else {
+                            System.out.println("No sale");
+                        }
+                    } catch (NumberFormatException e) {
+                        request.setAttribute("error", "Error en los datos numéricos");
+                        request.getRequestDispatcher("/Index/VistaDP.jsp").forward(request, response);
                     }
                     break;
+
                 case "Editar":
                     int idEditar = Integer.parseInt(request.getParameter("id"));
                     DispositivosPerifericos dpEditar = DPDAO.buscar(idEditar);
-                    request.setAttribute("dps", dpEditar);
+                    List<DispositivosPerifericos> listaDPEdit = DPDAO.listar();
+                    request.setAttribute("dp", dpEditar);
+                    request.setAttribute("dps", listaDPEdit);
                     request.getRequestDispatcher("/Index/VistaDP.jsp").forward(request, response);
                     break;
+
                 case "Actualizar":
-                    int codigoDPA = Integer.parseInt(request.getParameter("txtCodigoDP"));
-                    String nombreDPA = request.getParameter("txtNombreDP");
-                    double precioDPA = Double.parseDouble(request.getParameter("txtPrecioDP"));
-                    int stockA = Integer.parseInt(request.getParameter("txtStock"));
-                    String tipoA = request.getParameter("txtTipo");
-                    int codigoProvA = Integer.parseInt(request.getParameter("txtCodigoProveedor"));
+                    try {
+                        int codigoDPA = Integer.parseInt(request.getParameter("txtCodigoDP"));
+                        String nombreDPA = request.getParameter("txtNombreDP");
+                        double precioDPA = Double.parseDouble(request.getParameter("txtPrecioDP"));
+                        int stockA = Integer.parseInt(request.getParameter("txtStock"));
+                        String tipoA = request.getParameter("txtTipo");
+                        int codigoProvA = Integer.parseInt(request.getParameter("txtCodigoProveedor"));
 
-                    DP.setCodigoDP(codigoDPA);
-                    DP.setNombreDP(nombreDPA);
-                    DP.setPrecioDP(precioDPA);
-                    DP.setStock(stockA);
-                    DP.setTipo(tipoA);
-                    DP.setCodigoProveedor(codigoProvA);
+                        DP.setCodigoDP(codigoDPA);
+                        DP.setNombreDP(nombreDPA);
+                        DP.setPrecioDP(precioDPA);
+                        DP.setStock(stockA);
+                        DP.setTipo(tipoA);
+                        DP.setCodigoProveedor(codigoProvA);
 
-                    int resultadoDP = DPDAO.actualizar(DP); 
-                    if (resultadoDP > 0) {
-                        request.getRequestDispatcher("Controlador?menu=VistaDP&accion=Listar").forward(request, response);
-                    } else {
-                        request.setAttribute("error", "Error al actualizar el dispositivo");
+                        int resultadoDP = DPDAO.actualizar(DP);
+                        if (resultadoDP > 0) {
+                            response.sendRedirect("Controlador?menu=VistaDP&accion=Listar");
+                            return;
+                        } else {
+                            request.setAttribute("error", "Error al actualizar el dispositivo");
+                            request.getRequestDispatcher("/Index/VistaDP.jsp").forward(request, response);
+                        }
+                    } catch (NumberFormatException e) {
+                        request.setAttribute("error", "Error en los datos numéricos");
+                        request.getRequestDispatcher("/Index/VistaDP.jsp").forward(request, response);
                     }
                     break;
 
@@ -228,7 +245,6 @@ public class Controlador extends HttpServlet {
                     if (idEliminar != null && !idEliminar.trim().isEmpty()) {
                         try {
                             int codigo = Integer.parseInt(idEliminar);
-
                             int resultadoE = DPDAO.eliminar(codigo);
 
                             if (resultadoE > 0) {
@@ -236,18 +252,18 @@ public class Controlador extends HttpServlet {
                             } else {
                                 request.setAttribute("error", "Error al eliminar el DP");
                             }
-
                         } catch (NumberFormatException e) {
                             request.setAttribute("error", "ID de DP inválido");
                         }
-
-                        response.sendRedirect("Controlador?menu=VistaDP&accion=Listar");
-                        return;
                     }
-                    break;
+                    response.sendRedirect("Controlador?menu=VistaDP&accion=Listar");
+                    return;
+                    
                 default:
-                    System.out.println("No se encontro");
+                    System.out.println("No valido");
             }
+        } else if (menu.equals("DPC")){
+            response.sendRedirect("Index/DPC.jsp");
         }
 
     }

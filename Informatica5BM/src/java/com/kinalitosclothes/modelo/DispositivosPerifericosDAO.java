@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DispositivosPerifericosDAO {
+
     Conexion cn = new Conexion();
     Connection con;
     PreparedStatement ps;
@@ -15,7 +16,7 @@ public class DispositivosPerifericosDAO {
     int resp;
 
     public List<DispositivosPerifericos> listar() {
-        String sql = "call sp_ListarDispositvosPerifericos();";
+        String sql = "call sp_ListarDispositivosPerifericos();";
         List<DispositivosPerifericos> listaDP = new ArrayList<>();
         try {
             con = cn.Conexion();
@@ -38,7 +39,7 @@ public class DispositivosPerifericosDAO {
     }
 
     public int agregar(DispositivosPerifericos DP) {
-        String sql = "call sp_AgregarDispositvosPerifericos(?, ?, ?, ?, ?);";
+        String sql = "call sp_AgregarDispositivosPerifericos(?, ?, ?, ?, ?);";
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
@@ -55,7 +56,7 @@ public class DispositivosPerifericosDAO {
     }
 
     public int eliminar(int codigoDP) {
-        String sql = "call sp_EliminarDispositvosPerifericos(?);";
+        String sql = "call sp_EliminarDispositivosPerifericos(?);";
         resp = 0;
         try {
             con = cn.Conexion();
@@ -73,7 +74,7 @@ public class DispositivosPerifericosDAO {
     }
 
     public DispositivosPerifericos buscar(int codigoDP) {
-        String sql = "call sp_BuscarDispositvosPerifericos(?);";
+        String sql = "call sp_BuscarDispositivosPerifericos(?);";
         DispositivosPerifericos DP = null;
         try {
             con = cn.Conexion();
@@ -95,23 +96,25 @@ public class DispositivosPerifericosDAO {
         }
         return DP;
     }
-    
+
     public int actualizar(DispositivosPerifericos DP) {
-    String sql = "call sp_EditarDispositivosPerifericos (?, ?, ?, ?, ?, ?);";
-    resp = 0;
-    try {
-        con = cn.Conexion();
-        ps = con.prepareStatement(sql);
-        ps.setInt(1, DP.getCodigoDP());
-        ps.setString(2, DP.getNombreDP());
-        ps.setDouble(3, DP.getPrecioDP());
-        ps.setInt(4, DP.getStock());
-        ps.setString(5, DP.getTipo());
-        ps.setInt(6, DP.getCodigoProveedor());
-        resp = ps.executeUpdate();
-    } catch (Exception e) {
-        e.printStackTrace();
+        String sql = "call sp_EditarDispositivosPerifericos(?, ?, ?, ?, ?, ?);";
+        resp = 0;
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, DP.getCodigoDP());
+            ps.setString(2, DP.getNombreDP());
+            ps.setDouble(3, DP.getPrecioDP());
+            ps.setInt(4, DP.getStock());
+            ps.setString(5, DP.getTipo());
+            ps.setInt(6, DP.getCodigoProveedor());
+            resp = ps.executeUpdate();
+            System.out.println("DP actualizado. Filas afectadas: " + resp);
+        } catch (Exception e) {
+            System.out.println("Error al actualizar DP: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return resp;
     }
-    return resp;
-}
 }

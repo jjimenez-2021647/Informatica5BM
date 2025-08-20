@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE-edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CRUD_DP</title>
-        <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/Images/Logo_K.C.png">
+        <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/Images/Logo.png">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Styles/vistaproveedoradmin.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
@@ -16,7 +16,7 @@
     <body>
         <nav class="navbar">
             <div class="nav-content">
-                <div class="logo">K<span>C</span></div>
+                <div class="logo">D<span>P</span></div>
                 <ul class="menu">
                     <li><a href="Controlador?menu=Index">Menu Inicio</a></li>
                     <li><a href="Controlador?menu=Proveedor&accion=Listar">Proveedor</a></li>
@@ -29,7 +29,7 @@
                 <h1>Bienvenido al CRUD completo de la entidad <b>Dispositivos Perifericos</b></h1>
                 <!--apartado para crear el proveedor-->
                 <div class="section">
-                    <h2>Agregar o actualizar proveedor</h2>
+                    <h2>Agregar o actualizar DP</h2>
                     <form action="Controlador?menu=VistaDP" method="POST">
                         <!--guarda el codigo para que se ejecute el editar y actualizar y asi no se tiene que editar porque se guarda con el mismo id que seleccionamos-->
                         <input type="hidden" name="txtCodigoDP" value="${dp.getCodigoDP()}">
